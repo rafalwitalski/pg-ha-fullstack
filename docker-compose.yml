@@ -73,7 +73,7 @@ services:
       - etcd2
       - etcd3
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:8008/health"]
+      test: ["CMD", "curl", "-sf", "-u", "patroni:patroni", "http://localhost:8008/health"]
       interval: 10s
       timeout: 5s
       start_period: 30s
@@ -95,7 +95,7 @@ services:
       - etcd2
       - etcd3
     healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:8008/health"]
+      test: ["CMD", "curl", "-sf", "-u", "patroni:patroni", "http://localhost:8008/health"]
       interval: 10s
       timeout: 5s
       start_period: 60s
@@ -113,8 +113,8 @@ services:
     depends_on:
       - flask-app
 
-  flask-app:                                    
-      build: ./app                              
+  flask-app:
+      build: ./app
       container_name: flask-app
       environment:
         DATABASE_URL: postgresql://postgres:postgres@pg-node1:5432,pg-node2:5432/postgres?target_session_attrs=read-write

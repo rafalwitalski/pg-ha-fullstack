@@ -44,6 +44,9 @@ postgresql:
 
 restapi:
   listen: 0.0.0.0:8008
+  authentication:
+    username: patroni
+    password: patroni
 
 tags:
   nofailover: false

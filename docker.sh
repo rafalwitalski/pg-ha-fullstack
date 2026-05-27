@@ -11,6 +11,6 @@ if ! command -v docker &>/dev/null; then
 	usermod -aG docker vagrant
 fi
 
-cd /vagrant && docker compose up -d
+cd /vagrant && docker compose up -d --build
 
 
