@@ -123,6 +123,8 @@ services:
       depends_on:
         pg-node1:
           condition: service_healthy
+        pg-node2:
+          condition: service_healthy
   
 volumes:
   etcd1_data:
