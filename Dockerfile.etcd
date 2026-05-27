@@ -1,0 +1,7 @@
+FROM fedora:42
+
+RUN dnf install -y etcd && dnf clean all
+
+EXPOSE 2379 2380
+USER etcd
+CMD ["etcd"]
