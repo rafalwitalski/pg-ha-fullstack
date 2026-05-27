@@ -31,27 +31,21 @@ def create_order():
     item = data["item"]
     qty = data["qty"]
 
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute(
-        "INSERT INTO orders (item, qty) VALUES (%s, %s)",
-        (item, qty)
-    )
-    conn.commit()
-    cur.close()
-    conn.close()
+    with get_connection() as conn:
+        conn.execute(
+            "INSERT INTO orders (item, qty) VALUES (%s, %s)",
+            (item, qty),
+        )
 
     return jsonify({"status": "created", "item": item, "qty": qty}), 201
 
 
 @app.route("/api/orders", methods=["GET"])
 def list_orders():
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT id, item, qty FROM orders ORDER BY id")
-    rows = [{"id": r[0], "item": r[1], "qty": r[2]} for r in cur.fetchall()]
-    cur.close()
-    conn.close()
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT id, item, qty FROM orders ORDER BY id")
+            rows = [{"id": r[0], "item": r[1], "qty": r[2]} for r in cur.fetchall()]
 
     return jsonify(rows)
 
